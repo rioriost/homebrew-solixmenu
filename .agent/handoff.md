@@ -1,19 +1,19 @@
 # Handoff
 
 ## Current goal
-Enhanced release script with preflight checks and clearer error messages.
+Added env var reference comment block to release.sh.
 
 ## Decisions
-Fail fast on missing env/commands and provide actionable hints.
+Document required/optional env vars inline to reduce setup confusion.
 
 ## Changes since last session
-- scripts/release.sh: added require_cmd/require_env helpers and improved validation messages.
+- scripts/release.sh: added env var list comment block.
 
 ## Verification status
 repo_verify: OK (shellcheck not installed; no tests detected).
 
 ## Risks
-Release flow will stop early if credentials or gh auth are missing.
+Release flow still depends on external credentials and gh auth.
 
 ## Next actions
-Ensure SIGN_IDENTITY, NOTARY_PROFILE (or APPLE_ID/TEAM_ID/APP_PASSWORD), gh auth, and CASK_TAP_PATH are set before make release.
+Run make release after setting SIGN_IDENTITY/NOTARY_PROFILE and gh auth.

@@ -30,5 +30,10 @@ Open `SolixMenu.xcodeproj` in Xcode and build the `SolixMenu` scheme.
 - Device availability depends on the Anker Solix APIs and your account.
 - No official affiliation with Anker.
 
+## Acknowledgements
+This project references and is implemented with guidance from the Anker Solix API research here:
+https://github.com/thomluther/anker-solix-api
+Thank you for the great work.
+
 ## License
 MIT (see `LICENSE`).

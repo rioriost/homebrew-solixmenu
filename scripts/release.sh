@@ -38,6 +38,10 @@ PUBLISH="${PUBLISH:-1}"
 # - RELEASE_NOTES (optional): release notes for gh release create
 # - TAP_COMMIT_MESSAGE (optional): commit message for tap update
 # - NOTARIZE (default 1) / PUBLISH (default 1)
+# export SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)"
+# export NOTARY_PROFILE="AC_PROFILE"
+# export CASK_TAP_PATH="$PWD/../homebrew-solixmenu"
+# export APP_REPO="rioriost/solixmenu"
 
 require_cmd() {
   local cmd="$1"
