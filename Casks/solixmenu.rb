@@ -1,6 +1,6 @@
 cask "solixmenu" do
   version "1.0.1"
-  sha256 "5dabd45c9ea4bd14a5a630c752d0baeff76f74dd1ac1afdd0cfcd07759b42cdd"
+  sha256 "14bb13e428a9d94de76624cfddd03cde41f71769fcf238b443f3f24ac51daa5e"
 
   url "https://github.com/rioriost/solixmenu/releases/download/v1.0.1/SolixMenu-v1.0.1.zip"
   name "SolixMenu"
