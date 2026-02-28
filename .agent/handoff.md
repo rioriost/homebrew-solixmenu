@@ -1,20 +1,19 @@
 # Handoff
 
 ## Current goal
-Added release automation script to build zip and generate Homebrew cask; fixed verify for bash 3.2 compatibility.
+Added notarization automation script for signing, zipping, notarizing, and stapling.
 
 ## Decisions
-Generate cask from git tag and repo URL; use zip artifacts and optional tap path.
+Use notarytool with keychain profile or Apple ID env vars; derive tag from git.
 
 ## Changes since last session
-- Added scripts/release.sh for build/zip/cask generation.
-- Updated .zed/scripts/verify to avoid mapfile on bash 3.2.
+- Added scripts/notarize.sh for notarization automation.
 
 ## Verification status
-repo_verify: OK (xcodebuild SolixMenu Debug).
+repo_verify: OK (no tests detected; shellcheck not installed).
 
 ## Risks
-Cask URL depends on APP_REPO detection; set APP_REPO if origin is missing.
+Notarization requires Developer ID and app-specific password; signing identity must be set via SIGN_IDENTITY.
 
 ## Next actions
-Run scripts/release.sh after tagging; upload zip and commit cask in homebrew-solixmenu.
+Configure notary credentials (NOTARY_PROFILE or APPLE_ID/TEAM_ID/APP_PASSWORD) and run scripts/notarize.sh after tagging.

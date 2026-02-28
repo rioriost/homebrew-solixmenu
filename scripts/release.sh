@@ -26,6 +26,7 @@ APP_PATH="$BUILD_PRODUCTS/$APP_NAME.app"
 
 ZIP_NAME="${APP_NAME}-${TAG}.zip"
 ZIP_PATH="${ZIP_PATH:-$ROOT_DIR/build/$ZIP_NAME}"
+NOTARIZE="${NOTARIZE:-0}"
 
 echo "==> Building $APP_NAME ($CONFIGURATION)"
 xcodebuild \
@@ -40,10 +41,21 @@ if [[ ! -d "$APP_PATH" ]]; then
   exit 1
 fi
 
-echo "==> Creating zip: $ZIP_PATH"
-mkdir -p "$(dirname "$ZIP_PATH")"
-rm -f "$ZIP_PATH"
-ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$ZIP_PATH"
+if [[ "$NOTARIZE" == "1" ]]; then
+  echo "==> Notarizing (scripts/notarize.sh)"
+  ZIP_NAME="$ZIP_NAME" ZIP_PATH="$ZIP_PATH" CONFIGURATION="$CONFIGURATION" DERIVED_DATA="$DERIVED_DATA" \
+    scripts/notarize.sh "$TAG"
+else
+  echo "==> Creating zip: $ZIP_PATH"
+  mkdir -p "$(dirname "$ZIP_PATH")"
+  rm -f "$ZIP_PATH"
+  ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$ZIP_PATH"
+fi
+
+if [[ ! -f "$ZIP_PATH" ]]; then
+  echo "ERROR: Zip not found at $ZIP_PATH"
+  exit 1
+fi
 
 SHA256="$(shasum -a 256 "$ZIP_PATH" | awk '{print $1}')"
 
