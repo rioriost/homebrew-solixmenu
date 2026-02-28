@@ -1,0 +1,29 @@
+/* SolixMenu Japanese Localizations */
+
+"menu.no_devices" = "デバイスなし";
+"menu.account_settings" = "アカウント設定…";
+"menu.about" = "このアプリについて";
+"menu.quit" = "終了";
+
+"settings.title" = "アカウント設定";
+"settings.email" = "メールアドレス";
+"settings.password" = "パスワード";
+"settings.country" = "国/地域コード";
+"settings.save" = "保存";
+"settings.cancel" = "キャンセル";
+"settings.login" = "ログイン";
+"settings.clear" = "クリア";
+
+"settings.error.missing_fields" = "メールアドレス、パスワード、国/地域コードを入力してください。";
+"settings.error.auth_failed" = "認証に失敗しました。";
+"settings.error.backoff" = "しばらくしてから再試行してください。";
+"settings.error.missing_credentials" = "認証情報が不足しています。";
+"settings.status.verifying" = "ログイン確認中…";
+"settings.status.success" = "ログインに成功しました。";
+"settings.status.failure" = "ログインに失敗しました。";
+
+"about.title" = "SolixMenu";
+"about.subtitle" = "メニューバーのSolixモニター";
+"about.version.placeholder" = "バージョン —";
+"about.version.short_format" = "バージョン %@";
+"about.version.format" = "バージョン %@ (%@)";

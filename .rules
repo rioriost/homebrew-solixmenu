@@ -1,0 +1,54 @@
+# AgentOps (project rules)
+# Goal: Max automation for (1) cross-session handoff, (2) verify->commit loop, (3) test generation.
+
+## Always do this at the start
+- Read ${HANDOFF_REL} and restate:
+  - Current goal
+  - Next actions
+  - Last verification status
+
+## Work loop (mandatory)
+- For any code change:
+  1) Implement smallest safe change
+  2) Run "${VERIFY_REL}"
+  3) If it fails: fix and repeat
+  4) If it passes: commit changes
+  5) Update handoff
+
+## Handoff is source of truth
+- ${HANDOFF_REL} must be updated after:
+  - verify success
+  - commit
+  - session end
+- Write concise, actionable content:
+  - Decisions, Changes, Verification, Next actions
+
+## Work-in-progress tracking
+- .agent/work-in-progress.json must be updated at:
+  - task start
+  - after edits
+  - verify start/end
+  - commit start/end
+  - session end
+- Keep it short and stateful:
+  - current_phase
+  - current_task
+  - last_action
+  - blocking_issues
+  - next_step
+
+## Commit message
+- ~80 chars, semantic summary (not strict conventional commits)
+- Mention scope if useful (e.g. "rust:", "py:", "swift:", "infra:")
+
+## Prefer MCP tools if available
+- If MCP tools exist:
+  - use mcp:agentops:handoff_update to update handoff
+  - use mcp:agentops:repo_commit to commit after verify
+  - use mcp:agentops:session_log_append to store session logs
+- Otherwise:
+  - update ${HANDOFF_REL} directly
+
+## MCP workspace_root requirement
+- When calling MCP tools, always pass `workspace_root` as the absolute project root path.
+- If `workspace_root` is omitted, the server falls back to its current working directory.
