@@ -29,6 +29,16 @@ ZIP_PATH="${ZIP_PATH:-$ROOT_DIR/build/$ZIP_NAME}"
 NOTARIZE="${NOTARIZE:-1}"
 PUBLISH="${PUBLISH:-1}"
 
+# Env vars (set as needed):
+# - TAG (optional): release tag (e.g., v1.0.0)
+# - APP_REPO (optional): GitHub owner/repo (auto-detected from origin)
+# - CASK_TAP_PATH (optional): local path to homebrew-solixmenu
+# - SIGN_IDENTITY (required for notarize)
+# - NOTARY_PROFILE (recommended) or APPLE_ID/TEAM_ID/APP_PASSWORD
+# - RELEASE_NOTES (optional): release notes for gh release create
+# - TAP_COMMIT_MESSAGE (optional): commit message for tap update
+# - NOTARIZE (default 1) / PUBLISH (default 1)
+
 require_cmd() {
   local cmd="$1"
   local hint="$2"

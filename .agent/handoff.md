@@ -1,20 +1,19 @@
 # Handoff
 
 ## Current goal
-Defaulted release flow to notarize and publish; Makefile notes defaults and publish skip.
+Enhanced release script with preflight checks and clearer error messages.
 
 ## Decisions
-Set NOTARIZE=1 and PUBLISH=1 by default and automate GitHub release + tap push.
+Fail fast on missing env/commands and provide actionable hints.
 
 ## Changes since last session
-- scripts/release.sh: default notarize/publish; auto-create/upload GitHub release; commit/push tap.
-- Makefile: document defaults and publish skip.
+- scripts/release.sh: added require_cmd/require_env helpers and improved validation messages.
 
 ## Verification status
-repo_verify: OK (no tests detected; shellcheck not installed).
+repo_verify: OK (shellcheck not installed; no tests detected).
 
 ## Risks
-Release automation will fail without gh auth or a git remote in the tap repo.
+Release flow will stop early if credentials or gh auth are missing.
 
 ## Next actions
-Ensure gh CLI is authenticated, SIGN_IDENTITY/NOTARY_PROFILE are set, and CASK_TAP_PATH points to homebrew-solixmenu before running make release.
+Ensure SIGN_IDENTITY, NOTARY_PROFILE (or APPLE_ID/TEAM_ID/APP_PASSWORD), gh auth, and CASK_TAP_PATH are set before make release.
