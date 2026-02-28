@@ -1,19 +1,20 @@
 # Handoff
 
 ## Current goal
-Reset repo to commit bfa1f97 per request.
+Added release automation script to build zip and generate Homebrew cask; fixed verify for bash 3.2 compatibility.
 
 ## Decisions
-Used git reset --hard to move HEAD back to bfa1f97.
+Generate cask from git tag and repo URL; use zip artifacts and optional tap path.
 
 ## Changes since last session
-- Reset HEAD to bfa1f97 (removed later commits locally).
+- Added scripts/release.sh for build/zip/cask generation.
+- Updated .zed/scripts/verify to avoid mapfile on bash 3.2.
 
 ## Verification status
-repo_verify: OK (no changes; skipping).
+repo_verify: OK (xcodebuild SolixMenu Debug).
 
 ## Risks
-History was rewritten locally; remote may need force-push or coordination.
+Cask URL depends on APP_REPO detection; set APP_REPO if origin is missing.
 
 ## Next actions
-Confirm whether you want me to force-push the reset to the remote (if applicable).
+Run scripts/release.sh after tagging; upload zip and commit cask in homebrew-solixmenu.
