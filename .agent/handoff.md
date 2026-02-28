@@ -1,13 +1,14 @@
 # Handoff
 
 ## Current goal
-Added Japanese translation of README as README-jp.md.
+Added Homebrew install instructions to README and README-jp.
 
 ## Decisions
-Provide localized README to match existing Japanese localization support.
+Document tap and cask install steps in both languages.
 
 ## Changes since last session
-- Added README-jp.md with Japanese translation of README contents.
+- README.md: added Homebrew install section.
+- README-jp.md: added Homebrew install section.
 
 ## Verification status
 repo_verify: OK (no tests detected).

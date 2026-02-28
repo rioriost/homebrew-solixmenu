@@ -18,9 +18,6 @@ brew tap rioriost/homebrew-solixmenu
 brew install --cask solixmenu
 ```
 
-## ビルド
-Xcode で `SolixMenu.xcodeproj` を開き、`SolixMenu` スキームをビルドしてください。
-
 ## 使い方
 1. アプリを起動します（メニューバーアクセサリとして動作します）。
 2. メニューバーのアイコンをクリックしてデバイス状態を確認します。

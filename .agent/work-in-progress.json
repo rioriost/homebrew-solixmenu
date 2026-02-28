@@ -1,6 +1,6 @@
 {
   "current_phase": "Commit start",
-  "current_task": "Translate README to Japanese",
+  "current_task": "Include README and LICENSE in release assets",
   "last_action": "Starting commit",
   "blocking_issues": "",
   "next_step": "Commit changes"

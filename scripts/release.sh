@@ -152,13 +152,19 @@ if [[ "$PUBLISH" == "1" ]]; then
   fi
 
   echo "==> Publishing GitHub release: $TAG"
+  assets=("$ZIP_PATH")
+  for extra in README.md README-jp.md LICENSE; do
+    if [[ -f "$extra" ]]; then
+      assets+=("$extra")
+    fi
+  done
   if gh release view "$TAG" >/dev/null 2>&1; then
-    gh release upload "$TAG" "$ZIP_PATH" --clobber
+    gh release upload "$TAG" "${assets[@]}" --clobber
   else
     if [[ -n "${RELEASE_NOTES:-}" ]]; then
-      gh release create "$TAG" "$ZIP_PATH" --notes "$RELEASE_NOTES"
+      gh release create "$TAG" "${assets[@]}" --notes "$RELEASE_NOTES"
     else
-      gh release create "$TAG" "$ZIP_PATH" --generate-notes
+      gh release create "$TAG" "${assets[@]}" --generate-notes
     fi
   fi
 
