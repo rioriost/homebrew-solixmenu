@@ -1,19 +1,19 @@
 # Handoff
 
 ## Current goal
-Integrated optional notarization step into release script via NOTARIZE=1 flag.
+Added Makefile release target to call scripts/release.sh.
 
 ## Decisions
-Reuse scripts/notarize.sh to sign, zip, notarize, and staple before generating cask.
+Expose release workflow via make release for convenience.
 
 ## Changes since last session
-- scripts/release.sh: added NOTARIZE flag to run scripts/notarize.sh and validate zip before cask.
+- Makefile: added release phony target.
 
 ## Verification status
-repo_verify: OK (no tests detected; shellcheck not installed).
+repo_verify: OK (no tests detected).
 
 ## Risks
-Notarization still requires configured credentials and Developer ID identity.
+Release target relies on scripts/release.sh and configured env vars.
 
 ## Next actions
-Run scripts/release.sh with NOTARIZE=1 and notarization env vars to produce stapled zip and cask.
+Use make release (optionally with NOTARIZE=1 and env vars) for release automation.
