@@ -1,19 +1,19 @@
 # Handoff
 
 ## Current goal
-Added notarization automation script for signing, zipping, notarizing, and stapling.
+Integrated optional notarization step into release script via NOTARIZE=1 flag.
 
 ## Decisions
-Use notarytool with keychain profile or Apple ID env vars; derive tag from git.
+Reuse scripts/notarize.sh to sign, zip, notarize, and staple before generating cask.
 
 ## Changes since last session
-- Added scripts/notarize.sh for notarization automation.
+- scripts/release.sh: added NOTARIZE flag to run scripts/notarize.sh and validate zip before cask.
 
 ## Verification status
 repo_verify: OK (no tests detected; shellcheck not installed).
 
 ## Risks
-Notarization requires Developer ID and app-specific password; signing identity must be set via SIGN_IDENTITY.
+Notarization still requires configured credentials and Developer ID identity.
 
 ## Next actions
-Configure notary credentials (NOTARY_PROFILE or APPLE_ID/TEAM_ID/APP_PASSWORD) and run scripts/notarize.sh after tagging.
+Run scripts/release.sh with NOTARIZE=1 and notarization env vars to produce stapled zip and cask.
