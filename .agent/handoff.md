@@ -1,17 +1,16 @@
 # Handoff
 
 ## Current goal
-Added acknowledgment in README and documented env vars in release.sh.
+Added Japanese translation of README as README-jp.md.
 
 ## Decisions
-Mention anker-solix-api as implementation reference and add env var list for release script.
+Provide localized README to match existing Japanese localization support.
 
 ## Changes since last session
-- README: added acknowledgements for anker-solix-api.
-- scripts/release.sh: added env var comment block.
+- Added README-jp.md with Japanese translation of README contents.
 
 ## Verification status
-repo_verify: OK (shellcheck not installed; no tests detected).
+repo_verify: OK (no tests detected).
 
 ## Risks
 None.

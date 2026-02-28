@@ -12,6 +12,12 @@ Anker Solix デバイスを監視するための軽量な macOS メニューバ�
 - macOS 26 以降
 - Apple Silicon (arm64)
 
+## インストール（Homebrew）
+```/dev/null/commands.sh#L1-2
+brew tap rioriost/homebrew-solixmenu
+brew install --cask solixmenu
+```
+
 ## ビルド
 Xcode で `SolixMenu.xcodeproj` を開き、`SolixMenu` スキームをビルドしてください。
 
