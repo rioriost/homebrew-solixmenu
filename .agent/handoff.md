@@ -1,19 +1,20 @@
 # Handoff
 
 ## Current goal
-Added env var reference comment block to release.sh.
+Added acknowledgment in README and documented env vars in release.sh.
 
 ## Decisions
-Document required/optional env vars inline to reduce setup confusion.
+Mention anker-solix-api as implementation reference and add env var list for release script.
 
 ## Changes since last session
-- scripts/release.sh: added env var list comment block.
+- README: added acknowledgements for anker-solix-api.
+- scripts/release.sh: added env var comment block.
 
 ## Verification status
 repo_verify: OK (shellcheck not installed; no tests detected).
 
 ## Risks
-Release flow still depends on external credentials and gh auth.
+None.
 
 ## Next actions
-Run make release after setting SIGN_IDENTITY/NOTARY_PROFILE and gh auth.
+None; await next request.
