@@ -26,7 +26,8 @@ APP_PATH="$BUILD_PRODUCTS/$APP_NAME.app"
 
 ZIP_NAME="${APP_NAME}-${TAG}.zip"
 ZIP_PATH="${ZIP_PATH:-$ROOT_DIR/build/$ZIP_NAME}"
-NOTARIZE="${NOTARIZE:-0}"
+NOTARIZE="${NOTARIZE:-1}"
+PUBLISH="${PUBLISH:-1}"
 
 echo "==> Building $APP_NAME ($CONFIGURATION)"
 xcodebuild \
@@ -79,6 +80,7 @@ HOMEPAGE="${HOMEPAGE:-https://github.com/$APP_REPO}"
 CASK_TAP_PATH="${CASK_TAP_PATH:-$ROOT_DIR/../homebrew-solixmenu}"
 CASKS_DIR="$CASK_TAP_PATH/Casks"
 CASK_FILE="$CASKS_DIR/solixmenu.rb"
+CASK_REL="Casks/solixmenu.rb"
 
 URL="https://github.com/${APP_REPO}/releases/download/${TAG}/${ZIP_NAME}"
 
@@ -98,6 +100,36 @@ cask "solixmenu" do
 end
 EOF
 
+if [[ "$PUBLISH" == "1" ]]; then
+  if ! command -v gh >/dev/null 2>&1; then
+    echo "ERROR: gh CLI not installed. Install it or set PUBLISH=0."
+    exit 1
+  fi
+
+  echo "==> Publishing GitHub release: $TAG"
+  if gh release view "$TAG" >/dev/null 2>&1; then
+    gh release upload "$TAG" "$ZIP_PATH" --clobber
+  else
+    if [[ -n "${RELEASE_NOTES:-}" ]]; then
+      gh release create "$TAG" "$ZIP_PATH" --notes "$RELEASE_NOTES"
+    else
+      gh release create "$TAG" "$ZIP_PATH" --generate-notes
+    fi
+  fi
+
+  echo "==> Committing Homebrew cask"
+  if [[ ! -d "$CASK_TAP_PATH/.git" ]]; then
+    echo "ERROR: CASK_TAP_PATH is not a git repo: $CASK_TAP_PATH"
+    exit 1
+  fi
+  git -C "$CASK_TAP_PATH" add "$CASK_REL"
+  if ! git -C "$CASK_TAP_PATH" diff --cached --quiet; then
+    TAP_COMMIT_MESSAGE="${TAP_COMMIT_MESSAGE:-solixmenu $VERSION}"
+    git -C "$CASK_TAP_PATH" commit -m "$TAP_COMMIT_MESSAGE"
+  fi
+  git -C "$CASK_TAP_PATH" push
+fi
+
 cat <<INFO
 
 Release artifacts:
@@ -106,10 +138,7 @@ Release artifacts:
 - Zip: $ZIP_PATH
 - SHA256: $SHA256
 - Cask: $CASK_FILE
-
-Next steps:
-1) Create GitHub release for tag $TAG
-2) Upload $ZIP_PATH as the release asset
-3) Commit and push the cask in $CASK_TAP_PATH
+- Notarize: $NOTARIZE
+- Publish: $PUBLISH
 
 INFO

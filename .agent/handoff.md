@@ -1,19 +1,19 @@
 # Handoff
 
 ## Current goal
-Added Makefile release target to call scripts/release.sh.
+Updated Makefile release target with tag/notarize usage tips.
 
 ## Decisions
-Expose release workflow via make release for convenience.
+Keep release target simple while documenting TAG and NOTARIZE env usage.
 
 ## Changes since last session
-- Makefile: added release phony target.
+- Makefile: added comments/echo tips for TAG and NOTARIZE usage.
 
 ## Verification status
 repo_verify: OK (no tests detected).
 
 ## Risks
-Release target relies on scripts/release.sh and configured env vars.
+Release target still depends on git tag availability for versioning.
 
 ## Next actions
-Use make release (optionally with NOTARIZE=1 and env vars) for release automation.
+Use make release with optional TAG and NOTARIZE environment variables.
