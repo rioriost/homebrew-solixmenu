@@ -29,6 +29,27 @@ ZIP_PATH="${ZIP_PATH:-$ROOT_DIR/build/$ZIP_NAME}"
 NOTARIZE="${NOTARIZE:-1}"
 PUBLISH="${PUBLISH:-1}"
 
+require_cmd() {
+  local cmd="$1"
+  local hint="$2"
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "ERROR: Required command not found: $cmd"
+    echo "Hint: $hint"
+    exit 1
+  fi
+}
+
+require_env() {
+  local var_name="$1"
+  local hint="$2"
+  local value="${!var_name:-}"
+  if [[ -z "$value" ]]; then
+    echo "ERROR: Required environment variable is not set: $var_name"
+    echo "Hint: $hint"
+    exit 1
+  fi
+}
+
 echo "==> Building $APP_NAME ($CONFIGURATION)"
 xcodebuild \
   -project "$ROOT_DIR/$APP_NAME.xcodeproj" \
@@ -44,6 +65,14 @@ fi
 
 if [[ "$NOTARIZE" == "1" ]]; then
   echo "==> Notarizing (scripts/notarize.sh)"
+  require_env "SIGN_IDENTITY" "Set SIGN_IDENTITY to your Developer ID Application identity."
+  if [[ -z "${NOTARY_PROFILE:-}" ]]; then
+    if [[ -z "${APPLE_ID:-}" || -z "${TEAM_ID:-}" || -z "${APP_PASSWORD:-}" ]]; then
+      echo "ERROR: Notarization credentials are missing."
+      echo "Set NOTARY_PROFILE (recommended), or set APPLE_ID, TEAM_ID, and APP_PASSWORD."
+      exit 1
+    fi
+  fi
   ZIP_NAME="$ZIP_NAME" ZIP_PATH="$ZIP_PATH" CONFIGURATION="$CONFIGURATION" DERIVED_DATA="$DERIVED_DATA" \
     scripts/notarize.sh "$TAG"
 else
@@ -101,8 +130,10 @@ end
 EOF
 
 if [[ "$PUBLISH" == "1" ]]; then
-  if ! command -v gh >/dev/null 2>&1; then
-    echo "ERROR: gh CLI not installed. Install it or set PUBLISH=0."
+  require_cmd "gh" "Install GitHub CLI: https://cli.github.com/ or set PUBLISH=0."
+  if ! gh auth status -h github.com >/dev/null 2>&1; then
+    echo "ERROR: gh CLI is not authenticated."
+    echo "Run: gh auth login"
     exit 1
   fi
 
@@ -118,8 +149,14 @@ if [[ "$PUBLISH" == "1" ]]; then
   fi
 
   echo "==> Committing Homebrew cask"
+  if [[ ! -d "$CASK_TAP_PATH" ]]; then
+    echo "ERROR: CASK_TAP_PATH does not exist: $CASK_TAP_PATH"
+    echo "Hint: set CASK_TAP_PATH to the local clone of homebrew-solixmenu."
+    exit 1
+  fi
   if [[ ! -d "$CASK_TAP_PATH/.git" ]]; then
     echo "ERROR: CASK_TAP_PATH is not a git repo: $CASK_TAP_PATH"
+    echo "Hint: git clone https://github.com/rioriost/homebrew-solixmenu"
     exit 1
   fi
   git -C "$CASK_TAP_PATH" add "$CASK_REL"
